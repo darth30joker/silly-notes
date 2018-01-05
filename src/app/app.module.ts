@@ -5,10 +5,12 @@ import { NgModule } from '@angular/core';
 import { MaterialModule } from './material.module';
 
 import { AppComponent } from './app.component';
+import { SignInComponent } from './sign-in/sign-in.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SignInComponent
   ],
   imports: [
     BrowserModule,
