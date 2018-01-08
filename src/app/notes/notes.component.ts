@@ -12,6 +12,7 @@ import { Note } from '../note.model';
 })
 export class NotesComponent implements OnInit {
   note: Note;
+  isEditing: boolean = false;
 
   constructor(private route: ActivatedRoute,
               private service: NotesService) { }
@@ -22,4 +23,15 @@ export class NotesComponent implements OnInit {
     })
   }
 
+  edit() {
+    this.isEditing = true;
+  }
+
+  save() {
+    this.service.save("title1", "content1");
+  }
+
+  cancel() {
+
+  }
 }

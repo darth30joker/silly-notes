@@ -1,0 +1,7 @@
+<mat-card>
+  <ul>
+    <li *ngFor="let note of notesList">
+      <a [routerLink]="['/notes', note]">{{note}}</a>
+    </li>
+  </ul>
+</mat-card>

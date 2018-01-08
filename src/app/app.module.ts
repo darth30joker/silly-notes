@@ -12,11 +12,13 @@ import { NotesComponent } from './notes/notes.component';
 import { NotesService } from './notes.service';
 
 import { AppRoutingModule } from './app-routing.module';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NotesComponent,
+    SidebarComponent,
   ],
   imports: [
     BrowserModule,
