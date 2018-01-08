@@ -19,4 +19,7 @@ export class SidebarComponent implements OnInit {
     this.notesList = this.service.loadList();
   }
 
+  create() {
+    this.service.createEmptyNote();
+  }
 }

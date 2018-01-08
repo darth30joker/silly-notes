@@ -6,10 +6,5 @@
 </mat-card>
 
 <mat-card *ngIf="isEditing">
-  <form>
-    <input type="text" name="title" value="{{note.title}}" />
-    <textarea name="content">{{note.content}}</textarea>
-    <button mat-button (click)="save()">Save</button>
-    <button mat-button (click)="cancel()">Cancel</button>
-  </form>
+  <app-note-edit [note]="note"></app-note-edit>
 </mat-card>

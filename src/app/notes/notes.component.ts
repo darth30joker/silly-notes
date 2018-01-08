@@ -29,12 +29,4 @@ export class NotesComponent implements OnInit {
   edit() {
     this.isEditing = true;
   }
-
-  save() {
-    this.service.save("title1", "content1");
-  }
-
-  cancel() {
-
-  }
 }
