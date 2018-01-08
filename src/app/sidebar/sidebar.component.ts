@@ -9,6 +9,7 @@ import { Note } from '../note.model';
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
+
 export class SidebarComponent implements OnInit {
   notesList: Array<string>;
 

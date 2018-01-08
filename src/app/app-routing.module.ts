@@ -6,6 +6,7 @@ import { NotesComponent } from './notes/notes.component';
 
 const routes: Routes = [
   { path: '', component: AppComponent },
+  { path: 'notes',  component: NotesComponent },
   { path: 'notes/:title',  component: NotesComponent }
 ];
 

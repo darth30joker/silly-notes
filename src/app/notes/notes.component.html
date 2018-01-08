@@ -1,8 +1,8 @@
 <app-sidebar></app-sidebar>
 
-<mat-card *ngIf="!isEditing">
+<mat-card *ngIf="!isEditing && note != null">
   <h1>{{note.title}}</h1><span><a (click)="edit()">edit</a></span>
-  <markdown-to-html>{{note.content}}</markdown-to-html>
+  <markdown>{{note.content}}</markdown>
 </mat-card>
 
 <mat-card *ngIf="isEditing">

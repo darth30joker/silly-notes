@@ -10,8 +10,9 @@ import { Note } from '../note.model';
   templateUrl: './notes.component.html',
   styleUrls: ['./notes.component.css']
 })
+
 export class NotesComponent implements OnInit {
-  note: Note;
+  note: Note = null;
   isEditing: boolean = false;
 
   constructor(private route: ActivatedRoute,
@@ -19,8 +20,10 @@ export class NotesComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.note = this.service.load(params['title']);
-    })
+      if (params['title'] != null) {
+        this.note = this.service.load(params['title']);
+      }
+    });
   }
 
   edit() {
