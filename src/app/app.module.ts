@@ -8,9 +8,9 @@ import { MarkdownModule } from 'ngx-markdown';
 import { MaterialModule } from './material.module';
 
 import { AppComponent } from './app.component';
-import { NotesComponent } from './notes/notes.component';
-import { NoteEditComponent } from './note-edit/note-edit.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { NoteListComponent } from './note-list/note-list.component';
+import { NoteEditComponent } from './note-edit/note-edit.component';
 
 import { NotesService } from './notes.service';
 
@@ -19,8 +19,8 @@ import { AppRoutingModule } from './app-routing.module';
 @NgModule({
   declarations: [
     AppComponent,
-    NotesComponent,
     SidebarComponent,
+    NoteListComponent,
     NoteEditComponent,
   ],
   imports: [

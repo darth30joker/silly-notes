@@ -9,10 +9,12 @@ export class NotesService {
   constructor() { }
 
   load(title: string): Note {
-    console.log(title);
     let content = localStorage.getItem(title);
-    console.log(content);
-    return new Note(title, content);
+    if (content != null) {
+      return new Note(title, content);
+    }
+
+    return null;
   }
 
   loadList(): Array<string> {
