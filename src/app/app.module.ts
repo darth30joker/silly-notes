@@ -5,7 +5,16 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, ActivatedRoute }   from '@angular/router';
 import { MarkdownModule } from 'ngx-markdown';
 
+import { environment } from '../environments/environment';
+
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
 import { MaterialModule } from './material.module';
+
+import { reducers } from './reducers';
+import { NotesEffects } from './effects/notes';
 
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -29,6 +38,9 @@ import { AppRoutingModule } from './app-routing.module';
     FormsModule,
     MaterialModule,
     MarkdownModule.forRoot(),
+    StoreModule.forRoot(reducers),
+    EffectsModule.forRoot([NotesEffects]),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
     AppRoutingModule
   ],
   providers: [ NotesService ],

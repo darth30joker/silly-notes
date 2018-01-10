@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 
+import { Observable } from 'rxjs/Observable';
+
 import { Note } from './note.model';
 import { NoteMeta } from './note-meta.model';
+
+import 'rxjs/Rx';
 
 @Injectable()
 export class NotesService {
@@ -14,7 +18,7 @@ export class NotesService {
     return new Note(id, title, localStorage.getItem(id));
   }
 
-  loadList(): NoteMeta[] {
+  loadList(): Observable<NoteMeta[]> {
     let listString = localStorage.getItem(this.LIST_KEY);
     if (listString == null) {
       listString = JSON.stringify({});
@@ -27,7 +31,7 @@ export class NotesService {
       lists.push(new NoteMeta(key, notes[key]));
     }
 
-    return lists;
+    return Observable.from([lists]);
   }
 
   save(note: Note) {

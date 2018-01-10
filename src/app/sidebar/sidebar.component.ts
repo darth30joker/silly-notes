@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Store } from '@ngrx/store';
+
+import { Observable } from 'rxjs/Observable';
+
+import * as fromRoot from '../reducers';
+import { NotesLoadAction } from '../actions/notes';
+
 import { NotesService } from '../notes.service';
 
 import { Note } from '../note.model';
@@ -12,12 +19,15 @@ import { NoteMeta } from '../note-meta.model';
 })
 
 export class SidebarComponent implements OnInit {
-  notesList: NoteMeta[];
+  notesList$: Observable<NoteMeta[]>;
 
-  constructor(private service: NotesService) { }
+  constructor(private service: NotesService,
+              public store: Store<fromRoot.State>) {
+    this.notesList$ = store.select(fromRoot.getNotesState);
+  }
 
   ngOnInit() {
-    this.notesList = this.service.loadList();
+    this.store.dispatch(new NotesLoadAction());
   }
 
   create() {

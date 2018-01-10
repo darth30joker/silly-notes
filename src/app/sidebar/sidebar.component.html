@@ -3,7 +3,7 @@
     <mat-list-item>
       <button mat-icon-button (click)="create()"><mat-icon aria-label="Create a new note">note_add</mat-icon></button>
     </mat-list-item>
-    <mat-list-item *ngFor="let note of notesList">
+    <mat-list-item *ngFor="let note of (notesList$ | async)">
       <a [routerLink]="['/notes']" fragment="{{note.id}}">{{note.title}}</a>
     </mat-list-item>
   </mat-list>
