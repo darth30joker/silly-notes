@@ -29,7 +29,7 @@ export class NoteEditComponent implements OnInit {
   save() {
     this.service.save(this.note);
 
-    this.router.navigate(['/notes'], {fragment: this.note.title});
+    this.router.navigate(['/notes'], {fragment: this.note.id});
   }
 
   cancel() {

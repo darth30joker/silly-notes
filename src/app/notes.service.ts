@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Note } from './note.model';
+import { NoteMeta } from './note-meta.model';
 
 @Injectable()
 export class NotesService {
@@ -8,55 +9,69 @@ export class NotesService {
 
   constructor() { }
 
-  load(title: string): Note {
-    let content = localStorage.getItem(title);
-    if (content != null) {
-      return new Note(title, content);
-    }
-
-    return null;
+  load(id: string): Note {
+    let title = this.loadListAsMap()[id];
+    return new Note(id, title, localStorage.getItem(id));
   }
 
-  loadList(): Array<string> {
-    var listString = localStorage.getItem(this.LIST_KEY);
+  loadList(): NoteMeta[] {
+    let listString = localStorage.getItem(this.LIST_KEY);
     if (listString == null) {
-      listString = JSON.stringify([]);
+      listString = JSON.stringify({});
+    }
+
+    let lists = [];
+    let notes = this.loadListAsMap();
+
+    for (var key in notes) {
+      lists.push(new NoteMeta(key, notes[key]));
+    }
+
+    return lists;
+  }
+
+  save(note: Note) {
+    localStorage.setItem(note.id, note.content);
+
+    this.saveTitleToList(new NoteMeta(note.id, note.title));
+  }
+
+  createEmptyNote(): Note {
+    let id = this.generateId();
+
+    return this.saveToStorage(new Note(id, "untitled note", ""));
+  }
+
+  private loadListAsMap() {
+    let listString = localStorage.getItem(this.LIST_KEY);
+    if (listString == null) {
+      listString = JSON.stringify({});
     }
 
     return JSON.parse(listString);
   }
 
-  save(note: Note) {
-    localStorage.setItem(note.title, note.content);
-
-    this.saveTitleToList(note.title);
-  }
-
-  createEmptyNote(): Note {
-    let title = "untitled note";
-
-    return this.saveToStorage(new Note(title, ""));
-  }
-
   private saveToStorage(note: Note): Note {
-    this.saveTitleToList(note.title);
+    this.saveTitleToList(note);
 
-    localStorage.setItem(note.title, note.content);
+    localStorage.setItem(note.id, note.content);
 
     return note;
   }
 
-  private saveTitleToList(title: string) {
+  private saveTitleToList(noteMeta: NoteMeta) {
     var listString = localStorage.getItem(this.LIST_KEY);
     if (listString == null) {
-      listString = JSON.stringify([]);
+      listString = JSON.stringify({});
     }
 
     let lists = JSON.parse(listString);
-    if (!lists.includes(title)) {
-      lists.push(title);
-    }
+    lists[noteMeta.id] = noteMeta.title;
 
     localStorage.setItem(this.LIST_KEY, JSON.stringify(lists));
+  }
+
+  private generateId(): string {
+    return Math.random().toString(36).substring(5);
   }
 }

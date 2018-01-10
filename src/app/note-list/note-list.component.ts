@@ -13,7 +13,6 @@ import { Note } from '../note.model';
 
 export class NoteListComponent implements OnInit {
   note: Note = null;
-  isEditing: boolean = false;
 
   constructor(private route: ActivatedRoute,
               private service: NotesService) { }
@@ -22,9 +21,5 @@ export class NoteListComponent implements OnInit {
     this.route.fragment.subscribe(fragment => {
       this.note = this.service.load(fragment);
     });
-  }
-
-  edit() {
-    this.isEditing = true;
   }
 }

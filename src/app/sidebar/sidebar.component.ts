@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { NotesService } from '../notes.service';
 
 import { Note } from '../note.model';
+import { NoteMeta } from '../note-meta.model';
 
 @Component({
   selector: 'app-sidebar',
@@ -11,7 +12,7 @@ import { Note } from '../note.model';
 })
 
 export class SidebarComponent implements OnInit {
-  notesList: Array<string>;
+  notesList: NoteMeta[];
 
   constructor(private service: NotesService) { }
 
