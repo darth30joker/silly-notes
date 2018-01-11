@@ -23,4 +23,11 @@ export class NotesEffects {
     .ofType(notes.NOTES_LOAD)
     .switchMap(() => this.service.loadList()
       .map(data => new notes.NotesLoadedAction(data)));
+
+  @Effect()
+  loatNote$: Observable<Action> = this.actions$
+    .ofType(notes.NOTE_LOAD)
+    .map(toPayload)
+    .switchMap((payload) => this.service.load(payload)
+      .map((data) => new notes.NoteLoadedAction(data)));
 }

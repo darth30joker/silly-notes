@@ -1,18 +1,18 @@
 <app-sidebar></app-sidebar>
 
-<mat-card>
+<mat-card *ngIf="note$ | async as model">
   <form>
       <mat-form-field class="example-full-width">
         <mat-label>Title</mat-label>
-        <input matInput name="title" placeholder="Title for this note" [(ngModel)]="note.title">
+        <input matInput #title placeholder="Title for this note" [value]="model.title">
       </mat-form-field>
-    
+
       <mat-form-field class="example-full-width">
         <mat-label>Note</mat-label>
-        <textarea matInput name="content" placeholder="Note in markdown format" [(ngModel)]="note.content"></textarea>
+        <textarea matInput #content placeholder="Note in markdown format" [value]="model.content"></textarea>
       </mat-form-field>
-    
-      <button mat-button (click)="save()">Save</button>
+
+      <button mat-button (click)="save(title.value, content.value)">Save</button>
       <button mat-button (click)="cancel()">Cancel</button>
     </form>
 </mat-card>

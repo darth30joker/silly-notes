@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 
+import { Observable } from 'rxjs/Observable';
+
+import { Store } from '@ngrx/store';
+
+import * as fromRoot from '../reducers';
+import { NoteLoadAction } from '../actions/notes';
+
 import { NotesService } from '../notes.service';
 
 import { Note } from '../note.model';
@@ -12,14 +19,17 @@ import { Note } from '../note.model';
 })
 
 export class NoteListComponent implements OnInit {
-  note: Note = null;
+  note$: Observable<Note>;
 
   constructor(private route: ActivatedRoute,
-              private service: NotesService) { }
+              private service: NotesService,
+              public store: Store<fromRoot.State>) {
+    this.note$ = store.select(fromRoot.getNoteState);
+  }
 
   ngOnInit() {
     this.route.fragment.subscribe(fragment => {
-      this.note = this.service.load(fragment);
+      this.store.dispatch(new NoteLoadAction(fragment));
     });
   }
 }

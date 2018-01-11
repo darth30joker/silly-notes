@@ -1,6 +1,6 @@
 <app-sidebar></app-sidebar>
 
-<mat-card *ngIf="note">
+<mat-card *ngIf="note$ | async as note">
   <h1>{{note.title}}</h1><span><a [routerLink]="['/notes/edit']" fragment="{{note.id}}">edit</a></span>
   <markdown>{{note.content}}</markdown>
 </mat-card>

@@ -13,9 +13,9 @@ export class NotesService {
 
   constructor() { }
 
-  load(id: string): Note {
+  load(id: string): Observable<Note> {
     let title = this.loadListAsMap()[id];
-    return new Note(id, title, localStorage.getItem(id));
+    return Observable.from([new Note(id, title, localStorage.getItem(id))]);
   }
 
   loadList(): Observable<NoteMeta[]> {
