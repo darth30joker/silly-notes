@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../reducers';
-import { NoteLoadAction } from '../actions/notes';
+import { NoteLoadAction, NoteSaveAction } from '../actions/notes';
 
 import { NotesService } from '../notes.service';
 

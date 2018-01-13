@@ -10,6 +10,7 @@ export const NOTE_LOAD = '[NOTE] Load';
 export const NOTE_LOADED = '[NOTE] Loaded';
 
 export const NOTE_SAVE = '[NOTE] Save';
+export const NOTE_SAVED = '[NOTE] Saved';
 
 export class NotesLoadAction implements Action {
   type = NOTES_LOAD;
@@ -37,4 +38,8 @@ export class NoteSaveAction implements Action {
   type = NOTE_SAVE;
 
   constructor(public payload: Note) {}
+}
+
+export class NoteSavedAction implements Action {
+  type = NOTE_SAVED;
 }

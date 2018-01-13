@@ -9,7 +9,11 @@ import 'rxjs/Rx';
 
 @Injectable()
 export class NotesService {
-  LIST_KEY = "notesList";
+  LIST_KEY = 'notesList';
+
+  static generateId(): string {
+    return Math.random().toString(36).substring(5);
+  }
 
   constructor() { }
 
@@ -24,26 +28,28 @@ export class NotesService {
       listString = JSON.stringify({});
     }
 
-    let lists = [];
-    let notes = this.loadListAsMap();
+    const lists = [];
+    const notes = this.loadListAsMap();
 
-    for (var key in notes) {
+    for (const key in notes) {
       lists.push(new NoteMeta(key, notes[key]));
     }
 
     return Observable.from([lists]);
   }
 
-  save(note: Note) {
+  save(note: Note): Observable<Note> {
     localStorage.setItem(note.id, note.content);
 
     this.saveTitleToList(new NoteMeta(note.id, note.title));
+
+    return Observable.from([note]);
   }
 
   createEmptyNote(): Note {
-    let id = this.generateId();
+    let id = NotesService.generateId();
 
-    return this.saveToStorage(new Note(id, "untitled note", ""));
+    return this.saveToStorage(new Note(id, 'untitled note', ''));
   }
 
   private loadListAsMap() {
@@ -64,18 +70,14 @@ export class NotesService {
   }
 
   private saveTitleToList(noteMeta: NoteMeta) {
-    var listString = localStorage.getItem(this.LIST_KEY);
+    let listString = localStorage.getItem(this.LIST_KEY);
     if (listString == null) {
       listString = JSON.stringify({});
     }
 
-    let lists = JSON.parse(listString);
+    const lists = JSON.parse(listString);
     lists[noteMeta.id] = noteMeta.title;
 
     localStorage.setItem(this.LIST_KEY, JSON.stringify(lists));
-  }
-
-  private generateId(): string {
-    return Math.random().toString(36).substring(5);
   }
 }

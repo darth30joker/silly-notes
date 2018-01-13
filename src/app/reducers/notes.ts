@@ -5,7 +5,7 @@ import { NoteMeta } from '../note-meta.model';
 import * as notes from '../actions/notes';
 
 export function reducer(state = [], action: notes.NotesLoadedAction) {
-  switch(action.type) {
+  switch (action.type) {
     case notes.NOTES_LOADED:
       return action.payload;
     default:
