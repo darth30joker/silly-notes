@@ -7,3 +7,16 @@
 .example-full-width {
   width: 100%;
 }
+
+.example-drawer {
+  height: 100%;
+  border-right: 1px solid #555;
+}
+
+.note-content {
+  min-height: 500px;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
