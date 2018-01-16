@@ -46,6 +46,14 @@ export class NotesService {
     return Observable.from([note]);
   }
 
+  delete(id: string): Observable<string> {
+    localStorage.removeItem(id);
+
+    this.removeTitleFromList(id);
+
+    return Observable.from([""]);
+  }
+
   createEmptyNote(): Note {
     let id = NotesService.generateId();
 
@@ -77,6 +85,18 @@ export class NotesService {
 
     const lists = JSON.parse(listString);
     lists[noteMeta.id] = noteMeta.title;
+
+    localStorage.setItem(this.LIST_KEY, JSON.stringify(lists));
+  }
+
+  private removeTitleFromList(id: string) {
+    let listString = localStorage.getItem(this.LIST_KEY);
+    if (listString == null) {
+      listString = JSON.stringify({});
+    }
+
+    const lists = JSON.parse(listString);
+    delete lists[id];
 
     localStorage.setItem(this.LIST_KEY, JSON.stringify(lists));
   }

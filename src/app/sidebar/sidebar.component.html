@@ -5,6 +5,9 @@
     </mat-list-item>
     <mat-list-item *ngFor="let note of (notesList$ | async)">
       <a [routerLink]="['/notes']" fragment="{{note.id}}">{{note.title}}</a>
+      <button mat-icon-button (click)="delete(note.id)">
+        <mat-icon>delete</mat-icon>
+     </button>
     </mat-list-item>
   </mat-list>
 </mat-card>

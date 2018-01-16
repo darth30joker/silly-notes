@@ -37,4 +37,11 @@ export class NotesEffects {
     .map(toPayload)
     .switchMap((payload) => this.service.save(payload)
       .map(() => new notes.NoteSavedAction()));
+
+  @Effect()
+  deleteNote$: Observable<Action> = this.actions$
+    .ofType(notes.NOTE_DELETE)
+    .map(toPayload)
+    .switchMap((payload) => this.service.delete(payload)
+      .map(() => new notes.NoteDeletedAction()));
 }

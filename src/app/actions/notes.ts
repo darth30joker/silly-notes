@@ -12,6 +12,9 @@ export const NOTE_LOADED = '[NOTE] Loaded';
 export const NOTE_SAVE = '[NOTE] Save';
 export const NOTE_SAVED = '[NOTE] Saved';
 
+export const NOTE_DELETE = '[NOTE] Delete';
+export const NOTE_DELETED = '[NOTE] Deleted';
+
 export class NotesLoadAction implements Action {
   type = NOTES_LOAD;
 }
@@ -42,4 +45,14 @@ export class NoteSaveAction implements Action {
 
 export class NoteSavedAction implements Action {
   type = NOTE_SAVED;
+}
+
+export class NoteDeleteAction implements Action {
+  type = NOTE_DELETE;
+
+  constructor(public payload: string) {}
+}
+
+export class NoteDeletedAction implements Action {
+  type = NOTE_DELETED;
 }

@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 
 import * as fromRoot from '../reducers';
 import { NotesLoadAction } from '../actions/notes';
+import { NoteDeleteAction } from '../actions/notes';
 
 import { NotesService } from '../notes.service';
 
@@ -32,5 +33,11 @@ export class SidebarComponent implements OnInit {
 
   create() {
     this.service.createEmptyNote();
+    this.store.dispatch(new NotesLoadAction());
+  }
+
+  delete(id: string) {
+    this.store.dispatch(new NoteDeleteAction(id));
+    this.store.dispatch(new NotesLoadAction());
   }
 }
