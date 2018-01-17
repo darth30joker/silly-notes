@@ -1,13 +1,6 @@
-<mat-card>
-  <mat-nav-list>
-    <mat-list-item>
-      <button mat-icon-button (click)="create()"><mat-icon aria-label="Create a new note">note_add</mat-icon></button>
-    </mat-list-item>
-    <mat-list-item *ngFor="let note of (notesList$ | async)">
-      <a [routerLink]="['/notes']" fragment="{{note.id}}">{{note.title}}</a>
-      <button mat-icon-button (click)="delete(note.id)">
-        <mat-icon>delete</mat-icon>
-     </button>
-    </mat-list-item>
-  </mat-nav-list>
-</mat-card>
+<div class="list-group">
+  <a class="list-group-item list-group-item-action" *ngFor="let note of (notesList$ | async)"
+      [routerLink]="['/notes']" fragment="{{note.id}}">
+    {{note.title}}
+  </a>
+</div>

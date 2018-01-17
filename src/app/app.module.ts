@@ -11,8 +11,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { MaterialModule } from './material.module';
-
 import { reducers } from './reducers';
 import { NotesEffects } from './effects/notes';
 
@@ -36,7 +34,6 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
-    MaterialModule,
     MarkdownModule.forRoot(),
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([NotesEffects]),
