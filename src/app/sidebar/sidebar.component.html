@@ -9,7 +9,7 @@
       </div>
     </div>
   </div>
-  <div class="list-group-item list-group-item-action" *ngFor="let note of (notesList$ | async)">
+  <div class="list-group-item list-group-item-action" *ngFor="let note of (noteList$ | async)">
     <a class="btn" [routerLink]="['/notes']" fragment="{{note.id}}">{{note.title}}</a>
     <button type="button" class="btn btn-dark float-right" (click)="delete(note.id)"><span aria-hidden="true">&times;</span></button>
   </div>

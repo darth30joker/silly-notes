@@ -10,7 +10,7 @@ import * as fromRoot from '../reducers';
 import { NotesLoadAction } from '../actions/notes';
 import { NoteDeleteAction } from '../actions/notes';
 
-import { NotesService } from '../notes.service';
+import { NotesService } from '../services/notes.service';
 
 import { Note } from '../note.model';
 import { NoteMeta } from '../note-meta.model';
@@ -22,12 +22,12 @@ import { NoteMeta } from '../note-meta.model';
 })
 
 export class SidebarComponent implements OnInit {
-  notesList$: Observable<NoteMeta[]>;
+  noteList$: Observable<NoteMeta[]>;
 
   constructor(private service: NotesService,
               private router: Router,
               public store: Store<fromRoot.State>) {
-    this.notesList$ = store.select(fromRoot.getNotesState);
+    this.noteList$ = store.select(fromRoot.getNotesState);
   }
 
   ngOnInit() {
@@ -37,7 +37,7 @@ export class SidebarComponent implements OnInit {
   create(title: string) {
     let note = this.service.createEmptyNote(title);
 
-    this.router.navigate(['/notes/edit'], {fragment: note.id});
+    this.router.navigate(['/notes/edit'], {fragment: note.meta.id});
   }
 
   delete(id: string) {

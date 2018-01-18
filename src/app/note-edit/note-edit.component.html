@@ -8,7 +8,7 @@
         <div class="card-body">
           <form>
             <div class="form-group">
-              <input #title class="form-control" placeholder="Title for this note" [value]="model.title">
+              <input #title class="form-control" placeholder="Title for this note" [value]="model.meta.title">
             </div>
             <div class="form-group">
               <textarea #content class="form-control" #content placeholder="Note in markdown format" [value]="model.content"></textarea>
