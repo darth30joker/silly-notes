@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Router } from '@angular/router';
+
 import { Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs/Observable';
@@ -8,7 +10,7 @@ import * as fromRoot from '../reducers';
 import { NotesLoadAction } from '../actions/notes';
 import { NoteDeleteAction } from '../actions/notes';
 
-import { NotesService } from '../notes.service';
+import { NotesService } from '../services/notes.service';
 
 import { Note } from '../note.model';
 import { NoteMeta } from '../note-meta.model';
@@ -20,20 +22,22 @@ import { NoteMeta } from '../note-meta.model';
 })
 
 export class SidebarComponent implements OnInit {
-  notesList$: Observable<NoteMeta[]>;
+  noteList$: Observable<NoteMeta[]>;
 
   constructor(private service: NotesService,
+              private router: Router,
               public store: Store<fromRoot.State>) {
-    this.notesList$ = store.select(fromRoot.getNotesState);
+    this.noteList$ = store.select(fromRoot.getNotesState);
   }
 
   ngOnInit() {
     this.store.dispatch(new NotesLoadAction());
   }
 
-  create() {
-    this.service.createEmptyNote();
-    this.store.dispatch(new NotesLoadAction());
+  create(title: string) {
+    let note = this.service.createEmptyNote(title);
+
+    this.router.navigate(['/notes/edit'], {fragment: note.meta.id});
   }
 
   delete(id: string) {

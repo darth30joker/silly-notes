@@ -26,7 +26,9 @@ export class NoteListComponent implements OnInit {
 
   ngOnInit() {
     this.route.fragment.subscribe(fragment => {
-      this.store.dispatch(new NoteLoadAction(fragment));
+      if (fragment != null) {
+        this.store.dispatch(new NoteLoadAction(fragment));
+      }
     });
   }
 }

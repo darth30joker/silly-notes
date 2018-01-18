@@ -9,8 +9,9 @@ import { Store } from '@ngrx/store';
 import * as fromRoot from '../reducers';
 import { NoteLoadAction, NoteSaveAction } from '../actions/notes';
 
-import { NotesService } from '../notes.service';
+import { NotesService } from '../services/notes.service';
 
+import { NoteMeta } from '../note-meta.model';
 import { Note } from '../note.model';
 
 @Component({
@@ -39,11 +40,9 @@ export class NoteEditComponent implements OnInit {
   }
 
   save(title: string, content: string) {
-    // this.service.save();
+      this.store.dispatch(new NoteSaveAction({id: this.id, title: title, content: content}));
 
-    this.store.dispatch(new NoteSaveAction(new Note(this.id, title, content)));
-
-    this.router.navigate(['/notes'], {fragment: this.id});
+      this.router.navigate(['/notes'], {fragment: this.id});
   }
 
   cancel() {

@@ -6,7 +6,7 @@ import { Actions, Effect, toPayload } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 
-import { NotesService } from '../notes.service';
+import { NotesService } from '../services/notes.service';
 
 import * as notes from '../actions/notes';
 
@@ -35,7 +35,7 @@ export class NotesEffects {
   saveNote$: Observable<Action> = this.actions$
     .ofType(notes.NOTE_SAVE)
     .map(toPayload)
-    .switchMap((payload) => this.service.save(payload)
+    .switchMap((payload) => this.service.save(payload.id, payload.title, payload.content)
       .map(() => new notes.NoteSavedAction()));
 
   @Effect()

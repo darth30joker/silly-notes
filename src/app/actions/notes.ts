@@ -40,7 +40,7 @@ export class NoteLoadedAction implements Action {
 export class NoteSaveAction implements Action {
   type = NOTE_SAVE;
 
-  constructor(public payload: Note) {}
+  constructor(public payload: any) {}
 }
 
 export class NoteSavedAction implements Action {

@@ -1,13 +1,12 @@
+import { NoteMeta } from './note-meta.model';
+
 export class Note {
-  id: string;
-  title: string;
+  meta: NoteMeta;
   content: string;
 
-  constructor(id: string,
-              title: string,
+  constructor(meta: NoteMeta,
               content: string) {
-    this.id = id;
-    this.title = title;
+    this.meta = meta;
     this.content = content;
   }
 }
