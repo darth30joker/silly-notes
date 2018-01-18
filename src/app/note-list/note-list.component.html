@@ -1,11 +1,14 @@
 <div class="container">
   <div class="row">
-    <div class="col-sm">
+    <div class="col-lg-3">
       <app-sidebar></app-sidebar>
     </div>
-    <div class="col-sm" *ngIf="note$ | async as note">
-      <div class="card bg-light mb-3" style="max-width: 18rem;">
-        <div class="card-header">{{note.title}}<a class="btn" [routerLink]="['/notes/edit']" fragment="{{note.id}}">Edit</a></div>
+    <div class="col-lg-9" *ngIf="note$ | async as note">
+      <div class="card bg-light mb-3">
+        <div class="card-header">
+          <a class="btn btn-secondary float-right" [routerLink]="['/notes/edit']" fragment="{{note.id}}">Edit</a>
+          <h2>{{note.title}}</h2>
+        </div>
         <div class="card-body">
           <markdown class="note-content" [data]="note.content"></markdown>
         </div>

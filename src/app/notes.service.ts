@@ -54,10 +54,10 @@ export class NotesService {
     return Observable.from([""]);
   }
 
-  createEmptyNote(): Note {
+  createEmptyNote(title: string): Note {
     let id = NotesService.generateId();
 
-    return this.saveToStorage(new Note(id, 'untitled note', ''));
+    return this.saveToStorage(new Note(id, title, ''));
   }
 
   private loadListAsMap() {

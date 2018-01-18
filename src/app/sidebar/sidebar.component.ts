@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Router } from '@angular/router';
+
 import { Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs/Observable';
@@ -23,6 +25,7 @@ export class SidebarComponent implements OnInit {
   notesList$: Observable<NoteMeta[]>;
 
   constructor(private service: NotesService,
+              private router: Router,
               public store: Store<fromRoot.State>) {
     this.notesList$ = store.select(fromRoot.getNotesState);
   }
@@ -31,9 +34,10 @@ export class SidebarComponent implements OnInit {
     this.store.dispatch(new NotesLoadAction());
   }
 
-  create() {
-    this.service.createEmptyNote();
-    this.store.dispatch(new NotesLoadAction());
+  create(title: string) {
+    let note = this.service.createEmptyNote(title);
+
+    this.router.navigate(['/notes/edit'], {fragment: note.id});
   }
 
   delete(id: string) {
