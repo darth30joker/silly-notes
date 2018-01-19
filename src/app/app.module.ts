@@ -3,6 +3,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, ActivatedRoute }   from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+
 import { MarkdownModule } from 'ngx-markdown';
 
 import { environment } from '../environments/environment';
@@ -24,6 +26,7 @@ import { NoteEditComponent } from './note-edit/note-edit.component';
 
 import { UserService } from './services/user.service';
 import { NotesService } from './services/notes.service';
+import { GoogleDriveService } from './services/google-drive.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { SignInComponent } from './sign-in/sign-in.component';
@@ -46,6 +49,7 @@ let gapiClientConfig: ClientConfig = {
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
     MarkdownModule.forRoot(),
@@ -58,7 +62,7 @@ let gapiClientConfig: ClientConfig = {
     }),
     AppRoutingModule
   ],
-  providers: [ UserService, NotesService ],
+  providers: [ UserService, NotesService, GoogleDriveService ],
   bootstrap: [ AppComponent ]
 })
 

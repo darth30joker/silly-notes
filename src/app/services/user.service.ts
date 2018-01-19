@@ -9,6 +9,9 @@ import GoogleAuth = gapi.auth2.GoogleAuth;
 @Injectable()
 export class UserService {
   public static readonly SESSION_STORAGE_KEY: string = "accessToken";
+  public static readonly SERVICE_TYPE: string = "serviceType";
+  public static readonly GOOGLE_DRIVE: string = "googleDrive";
+
   private user: GoogleUser = undefined;
 
   constructor(private googleAuthService: GoogleAuthService,
@@ -39,7 +42,8 @@ export class UserService {
         this.user = res;
         sessionStorage.setItem(
             UserService.SESSION_STORAGE_KEY, res.getAuthResponse().access_token
-        );
+        )
+        sessionStorage.setItem(UserService.SERVICE_TYPE, UserService.GOOGLE_DRIVE);
     });
   }
 

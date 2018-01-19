@@ -8,6 +8,7 @@ import { Note } from '../note.model';
 import { NoteMeta } from '../note-meta.model';
 
 import { UserService } from './user.service';
+import { GoogleDriveService } from './google-drive.service';
 
 import 'rxjs/Rx';
 
@@ -21,7 +22,8 @@ export class NotesService {
     return Math.random().toString(36).substring(5);
   }
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService,
+    private driveService: GoogleDriveService) {
     let listString = localStorage.getItem(NotesService.LIST_KEY);
     if (listString == null) {
       listString = JSON.stringify({});
@@ -33,6 +35,40 @@ export class NotesService {
   synchorize() {
     if (!environment.production) {
       return;
+    }
+
+    // 1. check if folder is there, otherwise create it
+    this.driveService.findOrCreateFolder();
+
+    // 2. check if there's a manifest.json, otherwise create it
+    let manifest = this.driveService.findOrCreateManifest();
+
+    // 3. load all items from manifest.json and compare them with local lists
+    for (let key in manifest) {
+      if (this.lists[key] !== undefined) {
+        if (this.lists[key].updated > manifest[key].updated) {
+          this.driveService.upload(this.lists[key], localStorage.getItem(key));
+        } else if (this.lists[key].updated < manifest[key].updated) {
+          this.saveToStorage(new Note(manifest[key], this.driveService.download(key)));
+          this.lists[key] = manifest[key];
+        }
+      } else {
+        this.saveToStorage(new Note(manifest[key], this.driveService.download(key)));
+        this.lists[key] = manifest[key];
+      }
+    }
+
+    for (let key in this.lists) {
+      if (manifest[key] !== undefined) {
+        if (this.lists[key].updated > manifest[key].updated) {
+          this.driveService.upload(this.lists[key], localStorage.getItem(key));
+        } else if (this.lists[key].updated < manifest[key].updated) {
+          this.saveToStorage(new Note(manifest[key], this.driveService.download(key)));
+          this.lists[key] = manifest[key];
+        }
+      } else {
+        this.driveService.upload(this.lists[key], localStorage.getItem(key));
+      }
     }
   }
 

@@ -1,36 +1,74 @@
 import { Injectable } from '@angular/core';
-
-import { Http, Headers } from '@angular/http';
+import { HttpHeaders } from '@angular/common/http';
+import { HttpClient,  } from '@angular/common/http/src/client';
 
 import { environment } from '../../environments/environment';
 
 import { UserService } from './user.service';
 
+import { NoteMeta } from '../note-meta.model';
+
+
 @Injectable()
 export class GoogleDriveService {
+  // https://angular.io/guide/http
   private readonly ENDPOINT_URL: string = 'https://www.googleapis.com/drive/v3';
-  private authHeader: Headers = new Headers();
 
-  constructor(private http: Http,
+  private readonly BASE_FOLDER_NAME: string = 'SillyNotes';
+
+  private readonly FOLDER_MIME_TYPE: string = 'application/vnd.google-apps.folder';
+
+  private authHeader: HttpHeaders = new HttpHeaders();
+
+  constructor(private http: HttpClient,
               private service: UserService) { }
 
-  sync() {
+  findOrCreateFolder() {
+    if (!this.folderExists(this.BASE_FOLDER_NAME)) {
+      this.createFolder(this.BASE_FOLDER_NAME);
+    }
+  }
+
+  findOrCreateManifest(): {} {
+    return {};
+  }
+
+  createFile(meta: NoteMeta, content: string) {
 
   }
 
-  saveList() {
+  updateFile(meta: NoteMeta, content: string) {
 
   }
 
-  save() {
+  upload(meta: NoteMeta, content: string) {
+    let endpoint = 'https://www.googleapis.com/upload/drive/v3?uploadType=media';
+    this.authHeader.append('Content-Type', 'text/x-markdown');
 
   }
 
-  private init() {
-    this.createFolder("SillyNotes");
+  download(id: string): string {
+    return "";
+  }
+
+  private folderExists(name: string): boolean {
+    let endpoint = this.ENDPOINT_URL + '/files';
+    let options = {params: {q: "name = '" + name + "' and mimeType = '" + this.FOLDER_MIME_TYPE + "'"},
+                   headers: this.authHeader};
+    this.http.get(endpoint, options).subscribe(data => {
+      console.log(data);
+
+      return true;
+    });
+
+    return true;
   }
 
   private createFolder(name: string) {
-    this.http.post(this.ENDPOINT_URL + '/files', {}, {headers: this.authHeader});
+    let endpoint = this.ENDPOINT_URL + '/files';
+    let data = {name: name,
+                mimeType: this.FOLDER_MIME_TYPE};
+    let options = {headers: this.authHeader};
+    this.http.post(endpoint, data, options).subscribe(data => console.log(data));
   }
 }
