@@ -8,6 +8,8 @@ import { UserService } from './user.service';
 
 import { NoteMeta } from '../note-meta.model';
 
+// import client = gapi.client;
+
 @Injectable()
 export class GoogleDriveService {
   // https://angular.io/guide/http
@@ -29,10 +31,21 @@ export class GoogleDriveService {
     //   this.createFolder(this.BASE_FOLDER_NAME);
     // }
 
-    this.ngZone.run(() => {
-      gapi.client.files.list({q: "name = '" + this.BASE_FOLDER_NAME + "' and mimeType = '" + this.FOLDER_MIME_TYPE + "'"}).then(resp => {console.log(resp)});
+  }
 
-    });
+  updateSigninStatus(isSignedIn) {
+    if (isSignedIn) {
+      // authorizeButton.style.display = 'none';
+      // signoutButton.style.display = 'block';
+      this.listFiles();
+    } else {
+      // authorizeButton.style.display = 'block';
+      // signoutButton.style.display = 'none';
+    }
+  }
+
+  listFiles() {
+
   }
 
   findOrCreateManifest(): {} {

@@ -19,6 +19,7 @@ export class SignInComponent implements OnInit {
 
   signIn() {
     // this.service.signIn();
-    this.driveService.findOrCreateFolder();
+    this.service.checkSignInStatus();
+    // this.driveService.findOrCreateFolder();
   }
 }

@@ -2,10 +2,6 @@ import { Injectable, NgZone } from '@angular/core';
 
 import { environment } from '../../environments/environment';
 
-// import { GoogleAuthService } from "ng-gapi/lib/GoogleAuthService";
-// import GoogleUser = gapi.auth2.GoogleUser;
-// import GoogleAuth = gapi.auth2.GoogleAuth;
-
 @Injectable()
 export class UserService {
   public static readonly SESSION_STORAGE_KEY: string = "accessToken";
@@ -13,27 +9,38 @@ export class UserService {
   public static readonly GOOGLE_DRIVE: string = "googleDrive";
 
   // private user: GoogleUser = undefined;
+  private isSignedIn = false;
 
   constructor(private ngZone: NgZone) {
+    gapi.load('client:auth2', function() {
+      gapi.client.init({
+        apiKey: 'AIzaSyD6zolKskSoaFMm9vX1b35SbU9s-Wck9EY',
+        clientId: '804102129562-uqf83f6b4817hcft8qi6qsvstoradg79.apps.googleusercontent.com',
+        discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
+        scope: 'openid email profile https://www.googleapis.com/auth/drive.file'
+      });
+    });
   }
 
   signIn() {
-    if (!environment.production) {
-      sessionStorage.setItem(UserService.SESSION_STORAGE_KEY, "fake token");
-      return;
-    }
+    // if (!environment.production) {
+    //   sessionStorage.setItem(UserService.SESSION_STORAGE_KEY, "fake token");
+    //   return;
+    // }
+    gapi.auth2.getAuthInstance().isSignedIn.listen(this.updateSigninStatus);
+    this.isSignedIn = gapi.auth2.getAuthInstance().isSignedIn.get();
 
-    // this.googleAuthService.getAuth().subscribe((auth) => {
-    //   auth.signIn().then(res => this.signInSuccessHandler(res), err => this.signInErrorHandler(err));
-    // });
+    if (!this.isSignedIn) {
+      gapi.auth2.getAuthInstance().signIn();
+    }
   }
 
-  public getToken(): string {
-    let token: string = sessionStorage.getItem(UserService.SESSION_STORAGE_KEY);
-    if (!token) {
-        throw new Error("no token set , authentication required");
-    }
-    return sessionStorage.getItem(UserService.SESSION_STORAGE_KEY);
+  updateSigninStatus(isSignedIn) {
+    this.isSignedIn = isSignedIn;
+  }
+
+  checkSignInStatus() {
+    console.log(gapi.auth2.getAuthInstance().isSignedIn.get());
   }
 
   // private signInSuccessHandler(res: GoogleUser) {
