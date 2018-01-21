@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { UserService } from '../services/user.service';
+import { GoogleDriveService } from '../services/google-drive.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -10,12 +11,14 @@ import { UserService } from '../services/user.service';
 
 export class SignInComponent implements OnInit {
 
-  constructor(private service: UserService) { }
+  constructor(private service: UserService,
+              private driveService: GoogleDriveService) { }
 
   ngOnInit() {
   }
 
   signIn() {
-    this.service.signIn();
+    // this.service.signIn();
+    this.driveService.findOrCreateFolder();
   }
 }

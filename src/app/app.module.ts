@@ -16,8 +16,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { reducers } from './reducers';
 import { NotesEffects } from './effects/notes';
 
-import ClientConfig = gapi.auth2.ClientConfig;
-import { GoogleApiModule, NG_GAPI_CONFIG } from "ng-gapi";
+// import ClientConfig = gapi.auth2.ClientConfig;
+// import { GoogleApiModule, NG_GAPI_CONFIG } from "ng-gapi";
 
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -31,13 +31,13 @@ import { GoogleDriveService } from './services/google-drive.service';
 import { AppRoutingModule } from './app-routing.module';
 import { SignInComponent } from './sign-in/sign-in.component';
 
-let gapiClientConfig: ClientConfig = {
-  client_id: "",
-  // discoveryDocs: ["https://analyticsreporting.googleapis.com/$discovery/rest?version=v4"],
-  scope: [
-      "https://www.googleapis.com/auth/drive"
-  ].join(" ")
-};
+// let gapiClientConfig: ClientConfig = {
+//   client_id: "",
+//   // discoveryDocs: ["https://analyticsreporting.googleapis.com/$discovery/rest?version=v4"],
+//   scope: [
+//       "https://www.googleapis.com/auth/drive"
+//   ].join(" ")
+// };
 
 @NgModule({
   declarations: [
@@ -56,10 +56,10 @@ let gapiClientConfig: ClientConfig = {
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([NotesEffects]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    GoogleApiModule.forRoot({
-      provide: NG_GAPI_CONFIG,
-      useValue: gapiClientConfig
-    }),
+    // GoogleApiModule.forRoot({
+    //   provide: NG_GAPI_CONFIG,
+    //   useValue: gapiClientConfig
+    // }),
     AppRoutingModule
   ],
   providers: [ UserService, NotesService, GoogleDriveService ],

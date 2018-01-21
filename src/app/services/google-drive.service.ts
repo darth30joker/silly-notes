@@ -1,13 +1,12 @@
-import { Injectable } from '@angular/core';
-import { HttpHeaders } from '@angular/common/http';
-import { HttpClient,  } from '@angular/common/http/src/client';
+import { Injectable, NgZone } from '@angular/core';
+// import { HttpHeaders } from '@angular/common/http';
+// import { HttpClient } from '@angular/common/http/src/client';
 
 import { environment } from '../../environments/environment';
 
 import { UserService } from './user.service';
 
 import { NoteMeta } from '../note-meta.model';
-
 
 @Injectable()
 export class GoogleDriveService {
@@ -18,15 +17,22 @@ export class GoogleDriveService {
 
   private readonly FOLDER_MIME_TYPE: string = 'application/vnd.google-apps.folder';
 
-  private authHeader: HttpHeaders = new HttpHeaders();
+  // private authHeader: HttpHeaders = new HttpHeaders();
 
-  constructor(private http: HttpClient,
+  constructor(private ngZone: NgZone,
+    // private http: HttpClient,
+              // private drive: gapi.client.drive.FileList,
               private service: UserService) { }
 
   findOrCreateFolder() {
-    if (!this.folderExists(this.BASE_FOLDER_NAME)) {
-      this.createFolder(this.BASE_FOLDER_NAME);
-    }
+    // if (!this.folderExists(this.BASE_FOLDER_NAME)) {
+    //   this.createFolder(this.BASE_FOLDER_NAME);
+    // }
+
+    this.ngZone.run(() => {
+      gapi.client.files.list({q: "name = '" + this.BASE_FOLDER_NAME + "' and mimeType = '" + this.FOLDER_MIME_TYPE + "'"}).then(resp => {console.log(resp)});
+
+    });
   }
 
   findOrCreateManifest(): {} {
@@ -43,7 +49,7 @@ export class GoogleDriveService {
 
   upload(meta: NoteMeta, content: string) {
     let endpoint = 'https://www.googleapis.com/upload/drive/v3?uploadType=media';
-    this.authHeader.append('Content-Type', 'text/x-markdown');
+    // this.authHeader.append('Content-Type', 'text/x-markdown');
 
   }
 
@@ -52,23 +58,23 @@ export class GoogleDriveService {
   }
 
   private folderExists(name: string): boolean {
-    let endpoint = this.ENDPOINT_URL + '/files';
-    let options = {params: {q: "name = '" + name + "' and mimeType = '" + this.FOLDER_MIME_TYPE + "'"},
-                   headers: this.authHeader};
-    this.http.get(endpoint, options).subscribe(data => {
-      console.log(data);
+    // let endpoint = this.ENDPOINT_URL + '/files';
+    // let options = {params: {q: "name = '" + name + "' and mimeType = '" + this.FOLDER_MIME_TYPE + "'"},
+    //                headers: this.authHeader};
+    // this.http.get(endpoint, options).subscribe(data => {
+    //   console.log(data);
 
-      return true;
-    });
+    //   return true;
+    // });
 
     return true;
   }
 
   private createFolder(name: string) {
-    let endpoint = this.ENDPOINT_URL + '/files';
-    let data = {name: name,
-                mimeType: this.FOLDER_MIME_TYPE};
-    let options = {headers: this.authHeader};
-    this.http.post(endpoint, data, options).subscribe(data => console.log(data));
+    // let endpoint = this.ENDPOINT_URL + '/files';
+    // let data = {name: name,
+    //             mimeType: this.FOLDER_MIME_TYPE};
+    // let options = {headers: this.authHeader};
+    // this.http.post(endpoint, data, options).subscribe(data => console.log(data));
   }
 }
