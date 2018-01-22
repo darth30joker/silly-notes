@@ -30,6 +30,7 @@ import { GoogleDriveService } from './services/google-drive.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { SignInComponent } from './sign-in/sign-in.component';
+import { TestComponent } from './test/test.component';
 
 // let gapiClientConfig: ClientConfig = {
 //   client_id: "",
@@ -46,6 +47,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
     NoteListComponent,
     NoteEditComponent,
     SignInComponent,
+    TestComponent,
   ],
   imports: [
     BrowserModule,

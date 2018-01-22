@@ -17,7 +17,7 @@ export class UserService {
         apiKey: 'AIzaSyD6zolKskSoaFMm9vX1b35SbU9s-Wck9EY',
         clientId: '804102129562-uqf83f6b4817hcft8qi6qsvstoradg79.apps.googleusercontent.com',
         discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
-        scope: 'openid email profile https://www.googleapis.com/auth/drive.file'
+        scope: 'openid email profile https://www.googleapis.com/auth/drive'
       });
     });
   }
@@ -27,12 +27,17 @@ export class UserService {
     //   sessionStorage.setItem(UserService.SESSION_STORAGE_KEY, "fake token");
     //   return;
     // }
-    gapi.auth2.getAuthInstance().isSignedIn.listen(this.updateSigninStatus);
+    let that = this;
+    gapi.auth2.getAuthInstance().isSignedIn.listen(that.updateSigninStatus);
     this.isSignedIn = gapi.auth2.getAuthInstance().isSignedIn.get();
 
     if (!this.isSignedIn) {
       gapi.auth2.getAuthInstance().signIn();
     }
+  }
+
+  signOut() {
+    gapi.auth2.getAuthInstance().signOut();
   }
 
   updateSigninStatus(isSignedIn) {
@@ -42,16 +47,6 @@ export class UserService {
   checkSignInStatus() {
     console.log(gapi.auth2.getAuthInstance().isSignedIn.get());
   }
-
-  // private signInSuccessHandler(res: GoogleUser) {
-  //   this.ngZone.run(() => {
-  //       this.user = res;
-  //       sessionStorage.setItem(
-  //           UserService.SESSION_STORAGE_KEY, res.getAuthResponse().access_token
-  //       )
-  //       sessionStorage.setItem(UserService.SERVICE_TYPE, UserService.GOOGLE_DRIVE);
-  //   });
-  // }
 
   private signInErrorHandler(err) {
       console.warn(err);

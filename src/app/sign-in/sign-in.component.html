@@ -1,3 +1,4 @@
 <div class="col-lg">
-  <button class="btn btn-primary" (click)="signIn()">Sign in with Google and use Google Drive</button>
+  <button class="btn btn-primary" (click)="signIn()" *ngIf="!isSignedIn">Sign in with Google and use Google Drive</button>
+  <button class="btn btn-primary" (click)="signOut()" *ngIf="isSignedIn">Sign out</button>
 </div>

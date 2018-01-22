@@ -8,8 +8,6 @@ import { UserService } from './user.service';
 
 import { NoteMeta } from '../note-meta.model';
 
-// import client = gapi.client;
-
 @Injectable()
 export class GoogleDriveService {
   // https://angular.io/guide/http
@@ -21,10 +19,19 @@ export class GoogleDriveService {
 
   // private authHeader: HttpHeaders = new HttpHeaders();
 
+  private client;
+
   constructor(private ngZone: NgZone,
     // private http: HttpClient,
               // private drive: gapi.client.drive.FileList,
-              private service: UserService) { }
+              private service: UserService) {
+    let that = this;
+    gapi.load("client", () => { 
+      gapi.client.load('drive', 'v3', () => {
+        that.client = gapi.client;
+      });
+    });
+  }
 
   findOrCreateFolder() {
     // if (!this.folderExists(this.BASE_FOLDER_NAME)) {
@@ -45,7 +52,8 @@ export class GoogleDriveService {
   }
 
   listFiles() {
-
+    console.log(this.client.drive);
+    this.client.drive.files.list({}).then((resp) => {console.log(resp)})
   }
 
   findOrCreateManifest(): {} {
